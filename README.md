@@ -48,6 +48,25 @@ cd C:\Users\Eyram\Desktop\Iris.eyram
 .\.venv\Scripts\python.exe Iris.py
 ```
 
+## Support Iris
+
+Iris is an independent project built to explore a practical, private, local-first desktop AI assistant.
+
+If you find Iris useful and want to support continued development, you can support the project through GitHub Sponsors:
+
+**[Support Iris on GitHub Sponsors](https://github.com/sponsors/Eyram-hub)**
+
+Support helps fund continued work on performance, voice interaction, the visual interface, Windows integration, documentation, and new features.
+
+### What supporters can expect
+
+- Development updates as Iris improves
+- Early looks at new features
+- Acknowledgement in the project when requested
+- Continued open-source development
+
+Sponsorship is optional. Iris remains an open-source project, and sponsorship does not guarantee a particular feature or release date.
+
 ## Project status
 
 Iris is an active personal project and is still being improved. Interfaces, models, command coverage, and performance may change between versions.
