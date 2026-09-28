@@ -10,7 +10,7 @@ ApplicationWindow {
     height: 760
     minimumWidth: 860
     minimumHeight: 620
-    title: "Iris"
+    title: "Iris — v2.0"
     color: "#07080C"
 
     property color textMain: "#F6F7FA"
@@ -71,6 +71,37 @@ ApplicationWindow {
                     }
                 }
                 Item { Layout.fillWidth: true }
+
+                Text {
+                    text: irisVersion
+                    color: textMuted
+                    font.pixelSize: 11
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                Button {
+                    Layout.preferredWidth: 96
+                    Layout.preferredHeight: 36
+                    text: "NEW CHAT"
+                    font.pixelSize: 10
+                    font.bold: true
+                    background: Rectangle {
+                        radius: 18
+                        color: "#151922"
+                        border.width: 1
+                        border.color: border
+                    }
+                    contentItem: Text {
+                        text: "NEW CHAT"
+                        color: textMain
+                        font.pixelSize: 10
+                        font.bold: true
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    onClicked: iris.newChat()
+                }
+
                 Rectangle {
                     Layout.preferredWidth: 108
                     Layout.preferredHeight: 36
@@ -139,9 +170,26 @@ ApplicationWindow {
                             Layout.fillHeight: true
 
                             Rectangle {
+                                id: halo
+                                anchors.centerIn: parent
+                                width: 330; height: 330; radius: 165
+                                color: "transparent"
+                                border.width: 1
+                                border.color: Qt.rgba(0.45, 0.75, 1.0, 0.18)
+                                scale: iris.listening ? 1.06 : (iris.busy ? 1.03 : 1.0)
+                                Behavior on scale { NumberAnimation { duration: 420; easing.type: Easing.OutCubic } }
+                                SequentialAnimation on opacity {
+                                    running: true
+                                    loops: Animation.Infinite
+                                    NumberAnimation { to: 0.10; duration: 900 }
+                                    NumberAnimation { to: 0.24; duration: 900 }
+                                }
+                            }
+
+                            Rectangle {
                                 id: ring
                                 anchors.centerIn: parent
-                                width: 260; height: 260; radius: 130
+                                width: 270; height: 270; radius: 135
                                 color: "transparent"
                                 border.width: 3
                                 opacity: 0.35
@@ -392,6 +440,10 @@ ApplicationWindow {
             }
             function onAnswerFinished(text) {
                 liveText.text = text
+            }
+            function onConversationCleared() {
+                chatModel.clear()
+                liveText.text = ""
             }
         }
     }
