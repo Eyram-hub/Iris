@@ -48,6 +48,14 @@ cd C:\Users\Eyram\Desktop\Iris.eyram
 .\.venv\Scripts\python.exe Iris.py
 ```
 
+## v2.0 Development
+
+The `v2.0-dev` branch is the active development track for the next major Iris release. It is intended for daily testing and improvement before the stable v2.0 release.
+
+Current v2.0 work includes persistent conversation history, a New Chat workflow, improved conversational prompting, compact response behavior for routine questions, and an upgraded animated rainbow interface.
+
+Major release timing and individual features may change as testing and user feedback evolve.
+
 ## Roadmap
 
 Iris is planned as a continuously improving project with a major feature-focused release approximately every two months, alongside smaller bug fixes, performance improvements, and maintenance releases.
