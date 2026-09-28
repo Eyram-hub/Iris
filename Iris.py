@@ -24,6 +24,7 @@ from PySide6.QtQml import QQmlApplicationEngine
 # ============================================================
 
 APP_NAME = "Iris"
+VERSION = "2.0.0-dev"
 USER_NAME = "Eyram"
 WAKE_WORD = "iris"
 
@@ -33,6 +34,7 @@ BASE_DIR = APP_ROOT
 AI_DIR = BASE_DIR / "ai"
 VOSK_DIR = BASE_DIR / "model"
 MEMORY_FILE = BASE_DIR / "iris_memory.json"
+CHAT_FILE = BASE_DIR / "iris_chat_history.json"
 QWEN_PATH = AI_DIR / "Qwen3-4B-Q6_K.gguf"
 QML_PATH = BASE_DIR / "Main.qml"
 QML_BUNDLE_PATH = BUNDLE_ROOT / "Main.qml"
@@ -63,6 +65,10 @@ Rules:
 - For coding, provide runnable code and briefly explain what matters.
 - Keep the conversation context in mind and understand follow-up questions.
 - Never pretend you performed an action you did not perform.
+- For ordinary questions, answer in a compact, useful way and stop when the question is answered.
+- For follow-up questions, use the previous conversation instead of repeating background unnecessarily.
+- When the user asks for a definition, give the definition first, then one useful detail or example.
+- When the user asks for a comparison, show the key difference first.
 - The user is {USER_NAME}; address them by name only when it sounds natural.
 """
 
@@ -226,6 +232,7 @@ class IrisBackend(QObject):
     messageAdded = Signal(str, str)
     streamText = Signal(str)
     answerFinished = Signal(str)
+    conversationCleared = Signal()
     errorMessage = Signal(str)
 
     def __init__(self):
@@ -238,6 +245,11 @@ class IrisBackend(QObject):
         self.model = None
         self.model_lock = threading.Lock()
         self.history = []
+        saved_history = load_json(CHAT_FILE, [])
+        if isinstance(saved_history, list):
+            for item in saved_history[-8:]:
+                if isinstance(item, dict) and item.get("role") in {"user", "assistant"} and item.get("content"):
+                    self.history.append({"role": item["role"], "content": str(item["content"])})
         self.memory = load_json(MEMORY_FILE, {"facts": [], "preferences": []})
         if not isinstance(self.memory, dict):
             self.memory = {"facts": [], "preferences": []}
@@ -301,6 +313,8 @@ class IrisBackend(QObject):
 
     # ---------- Startup ----------
     def start(self):
+        for item in self.history:
+            self.messageAdded.emit(item["role"], item["content"])
         self.tts_thread = threading.Thread(target=self._tts_worker, daemon=True)
         self.tts_thread.start()
 
@@ -401,6 +415,7 @@ class IrisBackend(QObject):
         self.history.append({"role": "user", "content": user_text})
         self.history.append({"role": "assistant", "content": answer})
         del self.history[:-8]
+        save_json(CHAT_FILE, self.history)
 
     def _context_messages(self, question: str):
         memory_text = ""
@@ -720,6 +735,14 @@ class IrisBackend(QObject):
             self.orbState = "idle"
 
     @Slot()
+    def newChat(self):
+        self.history.clear()
+        save_json(CHAT_FILE, [])
+        self.conversationCleared.emit()
+        self.status = "Ready"
+        self.orbState = "idle"
+
+    @Slot()
     def toggleVoice(self):
         if sd is None or Model is None:
             self.errorMessage.emit("Voice recognition is not available because sounddevice or Vosk is missing.")
@@ -766,6 +789,7 @@ def main():
 
     backend = IrisBackend()
     engine.rootContext().setContextProperty("iris", backend)
+    engine.rootContext().setContextProperty("irisVersion", VERSION)
 
     candidates = [QML_PATH, QML_BUNDLE_PATH]
     qml_loaded = False
