@@ -48,6 +48,21 @@ cd C:\Users\Eyram\Desktop\Iris.eyram
 .\.venv\Scripts\python.exe Iris.py
 ```
 
+## v3.0 Development
+
+The `v3.0-dev` branch is the next major development track for Iris. It is intended for experimentation, daily testing, and feature development before a stable v3.0 release.
+
+### Planned v3.0 features
+
+- **AI & conversation:** more natural multi-turn chat, stronger follow-up understanding, better response formatting, smarter routing, and better task-specific answers
+- **Voice:** faster wake-word response, more reliable continuous listening, improved speech recognition, natural spoken responses, and speech interruption
+- **Desktop intelligence:** broader app launching, file/folder search, clipboard-aware actions, diagnostics, and a larger automation system
+- **Interface:** more advanced animated rainbow orb, themes, improved chat presentation, compact/expanded layouts, and system-tray operation
+- **Performance:** faster startup, model-load diagnostics, error recovery, performance statistics, and cleaner logging
+- **Distribution:** clearer releases, improved installation documentation, bug reporting, and release notes
+
+These are development targets, not claims that all features are already implemented. The final v3.0 feature set may change after testing and user feedback.
+
 ## v2.0 Development
 
 The `v2.0-dev` branch is the active development track for the next major Iris release. It is intended for daily testing and improvement before the stable v2.0 release.
