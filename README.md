@@ -48,6 +48,22 @@ cd C:\Users\Eyram\Desktop\Iris.eyram
 .\.venv\Scripts\python.exe Iris.py
 ```
 
+## Roadmap
+
+Iris is planned as a continuously improving project with a major feature-focused release approximately every two months, alongside smaller bug fixes, performance improvements, and maintenance releases.
+
+| Release | Planned focus |
+|---|---|
+| **v1.0 — Foundation** | Stable AI, voice, memory, commands, and the new interface |
+| **v1.1 — Intelligence** | Better conversation handling, context, memory, and response quality |
+| **v1.2 — Automation** | More Windows controls, desktop actions, and useful workflows |
+| **v1.3 — Voice** | Better wake-word behavior, speech recognition, and natural voice interaction |
+| **v1.4 — Visuals** | More advanced orb animation, UI effects, themes, and customization |
+| **v1.5 — Productivity** | More tools for files, notes, study, and everyday computer tasks |
+| **v2.0 — Next Generation** | A larger architectural and feature expansion based on user feedback |
+
+Release timing and individual features may change as development, testing, and user feedback evolve.
+
 ## Support Iris
 
 Iris is an independent project built to explore a practical, private, local-first desktop AI assistant.
