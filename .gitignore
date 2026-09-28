@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Iris local data
+iris_memory.json
+
+# Local AI models — keep large GGUF files out of Git
+ai/*.gguf
+model/
+
+# Build output
+build/
+dist/
+*.spec
+
+# IDE
+.vscode/
+.idea/
+
+# Windows
+Thumbs.db
