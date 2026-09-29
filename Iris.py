@@ -924,12 +924,29 @@ class IrisBackend(QObject):
 
         if not QWEN_PATH.exists():
 
-            self.status = "Qwen model not found"
-            self.orbState = "error"
+            try:
+                AI_DIR.mkdir(parents=True, exist_ok=True)
+            except Exception as exc:
+                log(f"Could not create AI directory: {exc}")
 
-            self.errorMessage.emit(
-                f"Qwen model not found:\n{QWEN_PATH}"
+            self.status = "Qwen brain missing"
+            self.orbState = "error"
+            self.modelReady = False
+
+            message = (
+                "Iris cannot start because the Qwen AI brain is missing.\n\n"
+                f"Expected file:\n{QWEN_PATH}\n\n"
+                "What to do:\n"
+                "1. Get the tested Qwen3-4B-Q6_K.gguf model.\n"
+                "2. Open the 'ai' folder inside your Iris folder.\n"
+                "3. Put the file there with this exact name:\n"
+                "   Qwen3-4B-Q6_K.gguf\n"
+                "4. Restart Iris.\n\n"
+                "Iris will automatically detect the brain when it is present."
             )
+
+            log(message)
+            self.errorMessage.emit(message)
 
             return
 
