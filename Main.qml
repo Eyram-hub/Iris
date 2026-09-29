@@ -359,6 +359,42 @@ ApplicationWindow {
                 }
             }
 
+        // Qwen model setup/error banner
+        Rectangle {
+            id: modelErrorBanner
+            Layout.fillWidth: true
+            visible: false
+            Layout.preferredHeight: visible ? 122 : 0
+            radius: 18
+            color: "#261A12"
+            border.width: 1
+            border.color: "#9A642B"
+
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: 14
+                spacing: 5
+
+                Text {
+                    text: "QWEN AI BRAIN NOT FOUND"
+                    color: "#FFB84A"
+                    font.pixelSize: 12
+                    font.bold: true
+                }
+
+                Text {
+                    id: modelErrorText
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    text: ""
+                    color: textMain
+                    font.pixelSize: 12
+                    wrapMode: Text.Wrap
+                    elide: Text.ElideRight
+                }
+            }
+        }
+
             // Composer
             Rectangle {
                 Layout.fillWidth: true
@@ -444,6 +480,10 @@ ApplicationWindow {
             function onConversationCleared() {
                 chatModel.clear()
                 liveText.text = ""
+            }
+            function onErrorMessage(text) {
+                modelErrorText.text = text
+                modelErrorBanner.visible = true
             }
         }
     }
